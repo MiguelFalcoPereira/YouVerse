@@ -27,11 +27,9 @@ def startup() -> None:
 
 @app.post("/infer", tags=["Inference"])
 async def infer(file: UploadFile = File(...)) -> dict:
-    # Basic content-type guard (not perfect, but useful)
     if file.content_type is None or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=415, detail="Unsupported file type. Please upload an image.")
 
-    # Read file bytes (UploadFile read is async-friendly)
     image_bytes = await file.read()
     if not image_bytes:
         raise HTTPException(status_code=400, detail="Empty file.")
@@ -40,14 +38,12 @@ async def infer(file: UploadFile = File(...)) -> dict:
 
     start = time.perf_counter()
     try:
-        # CPU-bound work -> threadpool
         input_tensor = await run_in_threadpool(preprocess_image_bytes, image_bytes)
         logits = await run_in_threadpool(model.predict, input_tensor)
         preds = await run_in_threadpool(top_k_predictions, logits, model.labels, settings.top_k)
     except ImagePreprocessError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        # Keep it generic; log real error in production
         raise HTTPException(status_code=500, detail="Inference failed.") from e
 
     elapsed_ms = (time.perf_counter() - start) * 1000.0
