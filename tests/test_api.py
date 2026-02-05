@@ -19,7 +19,6 @@ class FakeModelService:
 
     def predict(self, input_tensor: np.ndarray) -> np.ndarray:
         # Return logits shaped (1, 3)
-        # Make class2 the top prediction
         return np.array([[0.1, 0.2, 5.0]], dtype=np.float32)
 
 
@@ -39,7 +38,6 @@ def client(monkeypatch):
     )
 
     # Patch postprocessing to avoid relying on 1000 labels
-    # (We can reuse your real function too, but keeping it simple)
     monkeypatch.setattr(
         main,
         "top_k_predictions",
