@@ -10,7 +10,10 @@
 1. Create a Virtual Environment
 ```bash
 python -m venv .venv
+#powershell
 .venv\Scripts\Activate.ps1
+#bash
+source .venv/bin/activate
 ```
 2. Install Dependencies
 ```bash
@@ -18,15 +21,27 @@ python -m pip install -r requirements.txt
 ```
 3. Set Env Variables
 ```bash
+#powershell
 $env:PYTHONPATH="src"
 $env:MODEL_PATH="src\models\resnet50-v2-7.onnx"
 $env:LABELS_PATH="src\models\imagenet_classes.txt"
 $env:TOP_K="3"
 $env:NUM_THREADS="4"
 ```
+```bash
+#bash
+export PYTHONPATH=src
+export MODEL_PATH=src/models/resnet50-v2-7.onnx
+export LABELS_PATH=src/models/imagenet_classes.txt
+export TOP_K=3
+export NUM_THREADS=4
+```
 4. Run the API Server
 ```bash
+#powershell
 python -m uvicorn main:app
+#bash
+py -m uvicorn main:app
 ```
 5. Run Tests
 ```bash
