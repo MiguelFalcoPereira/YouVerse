@@ -1,4 +1,5 @@
 # ONNX Image Inference Service
+FastAPI-based backend service that performs image classification inference using a provided ONNX model.
 
 ## Setup and Run Instructions
 
