@@ -88,5 +88,9 @@ and the overall flow remains easy to follow.
 
 ## What could be improved?
 ### Model lifecycle and flexibility
-- Support loading different models via configuration.
-Introduce optional batching for higher throughput workloads.
+- Support loading different models via configuration;
+- Introduce optional batching for higher throughput workloads;
+- Add a model warm-up step during startup to reduce first-request latency.
+### Error handling and Observability
+- Add loggings;
+- Improve error responses.
